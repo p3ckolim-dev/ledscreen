@@ -4,7 +4,11 @@ import {
   resolveMarqueeSpeed,
   resolveSignColor,
   resolveSignColorPreset,
-} from "./fitText.mjs?v=20260601-speed";
+} from "./fitText.mjs?v=20260601-message-cache";
+import {
+  readCachedMessage,
+  writeCachedMessage,
+} from "./preferences.mjs?v=20260601-message-cache";
 
 const form = document.querySelector("[data-setup-form]");
 const input = document.querySelector("[data-message-input]");
@@ -100,6 +104,7 @@ function showControls() {
 }
 
 async function enterDisplay(message) {
+  writeCachedMessage(message);
   applySignColor(getSelectedColor());
   signText.textContent = message;
   setupView.hidden = true;
@@ -139,7 +144,10 @@ form.addEventListener("submit", (event) => {
   }
 });
 
-input.addEventListener("input", setStartState);
+input.addEventListener("input", () => {
+  writeCachedMessage(input.value);
+  setStartState();
+});
 colorInputs.forEach((input) => {
   input.addEventListener("change", () => applySignColor(input.value));
 });
@@ -168,5 +176,6 @@ document.fonts?.ready.then(scheduleFit);
 
 new ResizeObserver(scheduleFit).observe(signArea);
 
+input.value = readCachedMessage();
 applySignColor(getSelectedColor());
 setStartState();
