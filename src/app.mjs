@@ -5,11 +5,11 @@ import {
   resolveMarqueeSpeed,
   resolveSignColor,
   resolveSignColorPreset,
-} from "./fitText.mjs?v=20260601-speed-stepper";
+} from "./fitText.mjs?v=20260601-default-3x";
 import {
   readCachedMessage,
   writeCachedMessage,
-} from "./preferences.mjs?v=20260601-speed-stepper";
+} from "./preferences.mjs?v=20260601-default-3x";
 
 const form = document.querySelector("[data-setup-form]");
 const input = document.querySelector("[data-message-input]");

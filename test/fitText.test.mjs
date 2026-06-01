@@ -61,7 +61,7 @@ test("fitHorizontalTextToContainer maximizes text size against sign height", () 
   assert.equal(textElement.style.fontSize, "96px");
 });
 
-test("fitHorizontalTextToContainer scrolls horizontally when text is wider than the sign", () => {
+test("fitHorizontalTextToContainer scrolls horizontally at the default 3x speed", () => {
   const textElement = {
     style: {},
     scrollWidth: 920,
@@ -82,7 +82,7 @@ test("fitHorizontalTextToContainer scrolls horizontally when text is wider than 
   assert.equal(result.shouldScroll, true);
   assert.equal(result.direction, "left");
   assert.equal(result.overflowWidth, 920);
-  assert.equal(textElement.style.animationDuration, "7.2s");
+  assert.equal(textElement.style.animationDuration, "4.8s");
   assert.equal(textElement.style["--marquee-start"], "320px");
   assert.equal(textElement.style["--marquee-end"], "-920px");
 });
@@ -172,7 +172,7 @@ test("fitHorizontalTextToContainer keeps tall text and scrolls when width fittin
   assert.equal(result.shouldScroll, true);
 });
 
-test("fitHorizontalTextToContainer caps very long marquee duration", () => {
+test("fitHorizontalTextToContainer caps very long marquee duration at the default 3x speed", () => {
   const textElement = {
     style: {},
     scrollWidth: 12000,
@@ -189,7 +189,7 @@ test("fitHorizontalTextToContainer caps very long marquee duration", () => {
     max: 600,
   });
 
-  assert.equal(textElement.style.animationDuration, "24s");
+  assert.equal(textElement.style.animationDuration, "16s");
 });
 
 test("resolveSignColor defaults to lime and only accepts known sign colors", () => {
@@ -209,12 +209,12 @@ test("resolveSignColorPreset returns explicit mobile-safe color variables", () =
   assert.equal(resolveSignColorPreset("#123456").value, DEFAULT_SIGN_COLOR);
 });
 
-test("resolveMarqueeSpeed defaults to 2x and only accepts known speeds", () => {
-  assert.equal(DEFAULT_MARQUEE_SPEED, 2);
-  assert.equal(resolveMarqueeSpeed(), 2);
+test("resolveMarqueeSpeed defaults to 3x and only accepts known speeds", () => {
+  assert.equal(DEFAULT_MARQUEE_SPEED, 3);
+  assert.equal(resolveMarqueeSpeed(), 3);
   assert.equal(resolveMarqueeSpeed("0.8"), 0.8);
   assert.equal(resolveMarqueeSpeed("1.5"), 1.5);
-  assert.equal(resolveMarqueeSpeed("7"), 2);
+  assert.equal(resolveMarqueeSpeed("7"), 3);
 });
 
 test("getAdjacentMarqueeSpeed steps through speed presets without leaving bounds", () => {
@@ -222,5 +222,5 @@ test("getAdjacentMarqueeSpeed steps through speed presets without leaving bounds
   assert.equal(getAdjacentMarqueeSpeed(2, 1), 3);
   assert.equal(getAdjacentMarqueeSpeed(0.8, -1), 0.8);
   assert.equal(getAdjacentMarqueeSpeed(3, 1), 3);
-  assert.equal(getAdjacentMarqueeSpeed("7", -1), 1.5);
+  assert.equal(getAdjacentMarqueeSpeed("7", -1), 2);
 });

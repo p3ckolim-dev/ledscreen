@@ -9,7 +9,7 @@ export const SIGN_COLOR_PRESETS = [
 
 export const DEFAULT_SIGN_COLOR = SIGN_COLOR_PRESETS[0].value;
 export const MARQUEE_SPEED_PRESETS = [0.8, 1, 1.5, 2, 3];
-export const DEFAULT_MARQUEE_SPEED = 2;
+export const DEFAULT_MARQUEE_SPEED = 3;
 
 export function findLargestFittingFontSize({ min = 4, max = 960, fits }) {
   if (typeof fits !== "function") {
