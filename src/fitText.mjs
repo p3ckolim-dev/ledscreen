@@ -1,13 +1,15 @@
 export const SIGN_COLOR_PRESETS = [
-  { name: "lime", value: "#b7ff00" },
-  { name: "red", value: "#ff2d2d" },
-  { name: "amber", value: "#ffc247" },
-  { name: "cyan", value: "#26f1ff" },
-  { name: "pink", value: "#ff4fd8" },
-  { name: "white", value: "#f7f7f2" },
+  { name: "lime", value: "#b7ff00", rgb: "183, 255, 0", contrast: "#050505" },
+  { name: "red", value: "#ff2d2d", rgb: "255, 45, 45", contrast: "#050505" },
+  { name: "amber", value: "#ffc247", rgb: "255, 194, 71", contrast: "#050505" },
+  { name: "cyan", value: "#26f1ff", rgb: "38, 241, 255", contrast: "#050505" },
+  { name: "pink", value: "#ff4fd8", rgb: "255, 79, 216", contrast: "#050505" },
+  { name: "white", value: "#f7f7f2", rgb: "247, 247, 242", contrast: "#050505" },
 ];
 
 export const DEFAULT_SIGN_COLOR = SIGN_COLOR_PRESETS[0].value;
+export const MARQUEE_SPEED_PRESETS = [0.8, 1, 1.5, 2, 3];
+export const DEFAULT_MARQUEE_SPEED = 2;
 
 export function findLargestFittingFontSize({ min = 4, max = 960, fits }) {
   if (typeof fits !== "function") {
@@ -40,10 +42,19 @@ export function normalizeMessage(value) {
 }
 
 export function resolveSignColor(value) {
+  return resolveSignColorPreset(value).value;
+}
+
+export function resolveSignColorPreset(value) {
   return (
-    SIGN_COLOR_PRESETS.find((preset) => preset.value === value)?.value ??
-    DEFAULT_SIGN_COLOR
+    SIGN_COLOR_PRESETS.find((preset) => preset.value === value) ??
+    SIGN_COLOR_PRESETS[0]
   );
+}
+
+export function resolveMarqueeSpeed(value) {
+  const speed = Number(value);
+  return MARQUEE_SPEED_PRESETS.includes(speed) ? speed : DEFAULT_MARQUEE_SPEED;
 }
 
 function assignStyle(style, name, value) {
@@ -64,6 +75,7 @@ export function fitHorizontalTextToContainer({
   containerElement,
   min = 4,
   max = 960,
+  speed = DEFAULT_MARQUEE_SPEED,
 }) {
   if (!textElement || !containerElement) {
     return {
@@ -118,9 +130,8 @@ export function fitHorizontalTextToContainer({
   textElement.style.fontSize = `${finalFontSize}px`;
 
   const overflowWidth = textElement.scrollWidth;
-  const duration = formatSeconds(
-    Math.min(48, Math.max(8, (overflowWidth + width) / 86)),
-  );
+  const baseDuration = Math.min(48, Math.max(8, (overflowWidth + width) / 86));
+  const duration = formatSeconds(baseDuration / resolveMarqueeSpeed(speed));
 
   textElement.style.animationDuration = shouldScroll ? duration : "";
   assignStyle(textElement.style, "--marquee-start", `${width}px`);

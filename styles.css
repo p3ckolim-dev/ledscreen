@@ -10,6 +10,8 @@
   --amber: #ffc247;
   --cyan: #26f1ff;
   --sign-color: var(--lime);
+  --sign-rgb: 183, 255, 0;
+  --sign-contrast: #050505;
 }
 
 * {
@@ -114,11 +116,12 @@ textarea {
 }
 
 textarea:focus {
-  border-color: color-mix(in srgb, var(--sign-color) 74%, white);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--sign-color) 18%, transparent);
+  border-color: rgba(var(--sign-rgb), 0.82);
+  box-shadow: 0 0 0 4px rgba(var(--sign-rgb), 0.18);
 }
 
-.color-picker {
+.color-picker,
+.speed-picker {
   min-width: 0;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -128,7 +131,8 @@ textarea:focus {
   border: 0;
 }
 
-.color-picker legend {
+.color-picker legend,
+.speed-picker legend {
   grid-column: 1 / -1;
   margin-bottom: 2px;
   color: var(--muted);
@@ -136,7 +140,8 @@ textarea:focus {
   font-weight: 700;
 }
 
-.swatch-option {
+.swatch-option,
+.speed-option {
   min-width: 0;
   min-height: 42px;
   display: flex;
@@ -152,7 +157,8 @@ textarea:focus {
   letter-spacing: 0;
 }
 
-.swatch-option input {
+.swatch-option input,
+.speed-option input {
   position: absolute;
   opacity: 0;
   pointer-events: none;
@@ -166,13 +172,29 @@ textarea:focus {
   background: var(--swatch);
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.18) inset,
-    0 0 18px color-mix(in srgb, var(--swatch) 76%, transparent);
+    0 0 18px rgba(var(--swatch-rgb), 0.76);
 }
 
 .swatch-option:has(input:checked) {
   border-color: var(--swatch);
-  background: color-mix(in srgb, var(--swatch) 16%, rgba(17, 17, 17, 0.84));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--swatch) 16%, transparent);
+  background: rgba(var(--swatch-rgb), 0.16);
+  box-shadow: 0 0 0 3px rgba(var(--swatch-rgb), 0.16);
+}
+
+.speed-option {
+  justify-content: center;
+  padding-inline: 8px;
+}
+
+.speed-option span {
+  min-width: 0;
+}
+
+.speed-option:has(input:checked) {
+  border-color: rgba(var(--sign-rgb), 0.86);
+  background: rgba(var(--sign-rgb), 0.16);
+  color: var(--sign-color);
+  box-shadow: 0 0 0 3px rgba(var(--sign-rgb), 0.16);
 }
 
 .setup-actions {
@@ -199,13 +221,13 @@ textarea:focus {
   border: 0;
   border-radius: 8px;
   background: var(--sign-color);
-  color: #050505;
+  color: var(--sign-contrast);
   font-size: 17px;
   font-weight: 900;
   letter-spacing: 0;
   text-transform: uppercase;
   box-shadow:
-    0 16px 42px color-mix(in srgb, var(--sign-color) 30%, transparent),
+    0 16px 42px rgba(var(--sign-rgb), 0.3),
     0 0 0 1px rgba(255, 255, 255, 0.12) inset;
   transition: transform 160ms ease, background 160ms ease, opacity 160ms ease;
 }
@@ -239,7 +261,7 @@ textarea:focus {
   display: grid;
   place-items: center;
   background:
-    radial-gradient(circle at center, color-mix(in srgb, var(--sign-color) 16%, transparent), transparent 62%),
+    radial-gradient(circle at center, rgba(var(--sign-rgb), 0.16), transparent 62%),
     radial-gradient(circle, rgba(255, 255, 255, 0.09) 0 1px, transparent 1.6px) 0 0 / 8px 8px,
     linear-gradient(180deg, #020202, #080808 44%, #000000);
 }
@@ -263,6 +285,7 @@ textarea:focus {
   max-height: 100%;
   flex: 0 0 auto;
   color: var(--sign-color);
+  -webkit-text-fill-color: var(--sign-color);
   font-family: Impact, "Arial Black", "Apple SD Gothic Neo", "Noto Sans KR", ui-sans-serif, system-ui, sans-serif;
   font-size: 120px;
   font-weight: 900;
@@ -273,10 +296,10 @@ textarea:focus {
   overflow: visible;
   text-rendering: geometricPrecision;
   text-shadow:
-    0 0 4px rgba(255, 255, 255, 0.72),
-    0 0 16px color-mix(in srgb, var(--sign-color) 94%, transparent),
-    0 0 42px color-mix(in srgb, var(--sign-color) 66%, transparent),
-    0 0 86px color-mix(in srgb, var(--sign-color) 34%, transparent);
+    0 0 3px rgba(var(--sign-rgb), 0.9),
+    0 0 16px rgba(var(--sign-rgb), 0.92),
+    0 0 42px rgba(var(--sign-rgb), 0.62),
+    0 0 86px rgba(var(--sign-rgb), 0.34);
   transform: translateZ(0);
   animation: signPulse 2200ms ease-in-out infinite;
 }
@@ -371,7 +394,8 @@ body.is-displaying {
     flex: 1;
   }
 
-  .color-picker {
+  .color-picker,
+  .speed-picker {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

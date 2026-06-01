@@ -2,11 +2,14 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+  DEFAULT_MARQUEE_SPEED,
   DEFAULT_SIGN_COLOR,
   findLargestFittingFontSize,
   fitHorizontalTextToContainer,
   normalizeMessage,
+  resolveMarqueeSpeed,
   resolveSignColor,
+  resolveSignColorPreset,
 } from "../src/fitText.mjs";
 
 test("findLargestFittingFontSize returns the largest size accepted by the fit predicate", () => {
@@ -78,9 +81,47 @@ test("fitHorizontalTextToContainer scrolls horizontally when text is wider than 
   assert.equal(result.shouldScroll, true);
   assert.equal(result.direction, "left");
   assert.equal(result.overflowWidth, 920);
-  assert.equal(textElement.style.animationDuration, "14.4s");
+  assert.equal(textElement.style.animationDuration, "7.2s");
   assert.equal(textElement.style["--marquee-start"], "320px");
   assert.equal(textElement.style["--marquee-end"], "-920px");
+});
+
+test("fitHorizontalTextToContainer applies marquee speed multipliers", () => {
+  const textElement = {
+    style: {},
+    scrollWidth: 920,
+    get scrollHeight() {
+      return Number.parseInt(this.style.fontSize, 10);
+    },
+  };
+  const containerElement = { clientWidth: 320, clientHeight: 80 };
+
+  fitHorizontalTextToContainer({
+    textElement,
+    containerElement,
+    min: 12,
+    max: 180,
+    speed: 1,
+  });
+  assert.equal(textElement.style.animationDuration, "14.4s");
+
+  fitHorizontalTextToContainer({
+    textElement,
+    containerElement,
+    min: 12,
+    max: 180,
+    speed: 0.8,
+  });
+  assert.equal(textElement.style.animationDuration, "18s");
+
+  fitHorizontalTextToContainer({
+    textElement,
+    containerElement,
+    min: 12,
+    max: 180,
+    speed: 3,
+  });
+  assert.equal(textElement.style.animationDuration, "4.8s");
 });
 
 test("fitHorizontalTextToContainer shrinks short overflow text instead of scrolling", () => {
@@ -147,7 +188,7 @@ test("fitHorizontalTextToContainer caps very long marquee duration", () => {
     max: 600,
   });
 
-  assert.equal(textElement.style.animationDuration, "48s");
+  assert.equal(textElement.style.animationDuration, "24s");
 });
 
 test("resolveSignColor defaults to lime and only accepts known sign colors", () => {
@@ -155,4 +196,22 @@ test("resolveSignColor defaults to lime and only accepts known sign colors", () 
   assert.equal(resolveSignColor(), "#b7ff00");
   assert.equal(resolveSignColor("#26f1ff"), "#26f1ff");
   assert.equal(resolveSignColor("#123456"), "#b7ff00");
+});
+
+test("resolveSignColorPreset returns explicit mobile-safe color variables", () => {
+  assert.deepEqual(resolveSignColorPreset("#26f1ff"), {
+    name: "cyan",
+    value: "#26f1ff",
+    rgb: "38, 241, 255",
+    contrast: "#050505",
+  });
+  assert.equal(resolveSignColorPreset("#123456").value, DEFAULT_SIGN_COLOR);
+});
+
+test("resolveMarqueeSpeed defaults to 2x and only accepts known speeds", () => {
+  assert.equal(DEFAULT_MARQUEE_SPEED, 2);
+  assert.equal(resolveMarqueeSpeed(), 2);
+  assert.equal(resolveMarqueeSpeed("0.8"), 0.8);
+  assert.equal(resolveMarqueeSpeed("1.5"), 1.5);
+  assert.equal(resolveMarqueeSpeed("7"), 2);
 });

@@ -1,7 +1,9 @@
 import {
   fitHorizontalTextToContainer,
   normalizeMessage,
+  resolveMarqueeSpeed,
   resolveSignColor,
+  resolveSignColorPreset,
 } from "./fitText.mjs";
 
 const form = document.querySelector("[data-setup-form]");
@@ -15,6 +17,7 @@ const editButton = document.querySelector("[data-edit-button]");
 const fullScreenButton = document.querySelector("[data-fullscreen-button]");
 const charCount = document.querySelector("[data-char-count]");
 const colorInputs = [...document.querySelectorAll("[data-color-input]")];
+const speedInputs = [...document.querySelectorAll("[data-speed-input]")];
 
 let controlsTimer = 0;
 let fitFrame = 0;
@@ -27,6 +30,7 @@ function scheduleFit() {
       containerElement: signArea,
       min: 4,
       max: 1100,
+      speed: getSelectedSpeed(),
     });
 
     signArea.classList.toggle("is-scrolling", result.shouldScroll);
@@ -44,7 +48,15 @@ function getSelectedColor() {
 }
 
 function applySignColor(color) {
-  document.documentElement.style.setProperty("--sign-color", resolveSignColor(color));
+  const preset = resolveSignColorPreset(color);
+
+  document.documentElement.style.setProperty("--sign-color", preset.value);
+  document.documentElement.style.setProperty("--sign-rgb", preset.rgb);
+  document.documentElement.style.setProperty("--sign-contrast", preset.contrast);
+}
+
+function getSelectedSpeed() {
+  return resolveMarqueeSpeed(speedInputs.find((input) => input.checked)?.value);
 }
 
 function setStartState() {
@@ -130,6 +142,9 @@ form.addEventListener("submit", (event) => {
 input.addEventListener("input", setStartState);
 colorInputs.forEach((input) => {
   input.addEventListener("change", () => applySignColor(input.value));
+});
+speedInputs.forEach((input) => {
+  input.addEventListener("change", scheduleFit);
 });
 
 screenView.addEventListener("click", (event) => {
