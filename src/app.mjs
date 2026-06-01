@@ -1,14 +1,15 @@
 import {
   fitHorizontalTextToContainer,
+  getAdjacentMarqueeSpeed,
   normalizeMessage,
   resolveMarqueeSpeed,
   resolveSignColor,
   resolveSignColorPreset,
-} from "./fitText.mjs?v=20260601-message-cache";
+} from "./fitText.mjs?v=20260601-speed-stepper";
 import {
   readCachedMessage,
   writeCachedMessage,
-} from "./preferences.mjs?v=20260601-message-cache";
+} from "./preferences.mjs?v=20260601-speed-stepper";
 
 const form = document.querySelector("[data-setup-form]");
 const input = document.querySelector("[data-message-input]");
@@ -21,7 +22,10 @@ const editButton = document.querySelector("[data-edit-button]");
 const fullScreenButton = document.querySelector("[data-fullscreen-button]");
 const charCount = document.querySelector("[data-char-count]");
 const colorInputs = [...document.querySelectorAll("[data-color-input]")];
-const speedInputs = [...document.querySelectorAll("[data-speed-input]")];
+const speedInput = document.querySelector("[data-speed-input]");
+const speedDownButton = document.querySelector("[data-speed-down]");
+const speedUpButton = document.querySelector("[data-speed-up]");
+const speedValue = document.querySelector("[data-speed-value]");
 
 let controlsTimer = 0;
 let fitFrame = 0;
@@ -60,7 +64,17 @@ function applySignColor(color) {
 }
 
 function getSelectedSpeed() {
-  return resolveMarqueeSpeed(speedInputs.find((input) => input.checked)?.value);
+  return resolveMarqueeSpeed(speedInput?.value);
+}
+
+function setSelectedSpeed(speed) {
+  const nextSpeed = resolveMarqueeSpeed(speed);
+
+  speedInput.value = String(nextSpeed);
+  speedValue.textContent = `${nextSpeed}x`;
+  speedDownButton.disabled = nextSpeed === 0.8;
+  speedUpButton.disabled = nextSpeed === 3;
+  scheduleFit();
 }
 
 function setStartState() {
@@ -151,8 +165,11 @@ input.addEventListener("input", () => {
 colorInputs.forEach((input) => {
   input.addEventListener("change", () => applySignColor(input.value));
 });
-speedInputs.forEach((input) => {
-  input.addEventListener("change", scheduleFit);
+speedDownButton.addEventListener("click", () => {
+  setSelectedSpeed(getAdjacentMarqueeSpeed(getSelectedSpeed(), -1));
+});
+speedUpButton.addEventListener("click", () => {
+  setSelectedSpeed(getAdjacentMarqueeSpeed(getSelectedSpeed(), 1));
 });
 
 screenView.addEventListener("click", (event) => {
@@ -178,4 +195,5 @@ new ResizeObserver(scheduleFit).observe(signArea);
 
 input.value = readCachedMessage();
 applySignColor(getSelectedColor());
+setSelectedSpeed(getSelectedSpeed());
 setStartState();

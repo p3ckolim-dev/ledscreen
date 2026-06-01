@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#050505">
     <title>LED Screen</title>
-    <link rel="manifest" href="./manifest.webmanifest?v=20260601-message-cache">
-    <link rel="stylesheet" href="./styles.css?v=20260601-message-cache">
+    <link rel="manifest" href="./manifest.webmanifest?v=20260601-speed-stepper">
+    <link rel="stylesheet" href="./styles.css?v=20260601-speed-stepper">
   </head>
   <body>
     <main class="app">
@@ -18,7 +18,10 @@
           </div>
 
           <label class="message-field">
-            <span>Message</span>
+            <span class="field-heading">
+              <span>Message</span>
+              <span class="counter"><strong data-char-count>0</strong>/120</span>
+            </span>
             <textarea
               data-message-input
               rows="4"
@@ -64,30 +67,15 @@
 
           <fieldset class="speed-picker">
             <legend>Speed</legend>
-            <label class="speed-option">
-              <input data-speed-input type="radio" name="marqueeSpeed" value="0.8">
-              <span>0.8x</span>
-            </label>
-            <label class="speed-option">
-              <input data-speed-input type="radio" name="marqueeSpeed" value="1">
-              <span>1x</span>
-            </label>
-            <label class="speed-option">
-              <input data-speed-input type="radio" name="marqueeSpeed" value="1.5">
-              <span>1.5x</span>
-            </label>
-            <label class="speed-option">
-              <input data-speed-input type="radio" name="marqueeSpeed" value="2" checked>
-              <span>2x</span>
-            </label>
-            <label class="speed-option">
-              <input data-speed-input type="radio" name="marqueeSpeed" value="3">
-              <span>3x</span>
-            </label>
+            <div class="speed-stepper">
+              <input data-speed-input type="hidden" name="marqueeSpeed" value="2">
+              <button class="step-button" data-speed-down type="button" aria-label="Decrease speed">‹</button>
+              <output class="speed-value" data-speed-value for="marqueeSpeed">2x</output>
+              <button class="step-button" data-speed-up type="button" aria-label="Increase speed">›</button>
+            </div>
           </fieldset>
 
           <div class="setup-actions">
-            <span class="counter"><strong data-char-count>0</strong>/120</span>
             <button class="start-button" data-start-button type="submit">Start</button>
           </div>
         </form>
@@ -106,6 +94,6 @@
       </section>
     </main>
 
-    <script type="module" src="./src/app.mjs?v=20260601-message-cache"></script>
+    <script type="module" src="./src/app.mjs?v=20260601-speed-stepper"></script>
   </body>
 </html>

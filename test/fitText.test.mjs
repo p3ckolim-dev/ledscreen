@@ -6,6 +6,7 @@ import {
   DEFAULT_SIGN_COLOR,
   findLargestFittingFontSize,
   fitHorizontalTextToContainer,
+  getAdjacentMarqueeSpeed,
   normalizeMessage,
   resolveMarqueeSpeed,
   resolveSignColor,
@@ -214,4 +215,12 @@ test("resolveMarqueeSpeed defaults to 2x and only accepts known speeds", () => {
   assert.equal(resolveMarqueeSpeed("0.8"), 0.8);
   assert.equal(resolveMarqueeSpeed("1.5"), 1.5);
   assert.equal(resolveMarqueeSpeed("7"), 2);
+});
+
+test("getAdjacentMarqueeSpeed steps through speed presets without leaving bounds", () => {
+  assert.equal(getAdjacentMarqueeSpeed(2, -1), 1.5);
+  assert.equal(getAdjacentMarqueeSpeed(2, 1), 3);
+  assert.equal(getAdjacentMarqueeSpeed(0.8, -1), 0.8);
+  assert.equal(getAdjacentMarqueeSpeed(3, 1), 3);
+  assert.equal(getAdjacentMarqueeSpeed("7", -1), 1.5);
 });

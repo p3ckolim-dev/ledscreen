@@ -57,6 +57,17 @@ export function resolveMarqueeSpeed(value) {
   return MARQUEE_SPEED_PRESETS.includes(speed) ? speed : DEFAULT_MARQUEE_SPEED;
 }
 
+export function getAdjacentMarqueeSpeed(value, direction) {
+  const speed = resolveMarqueeSpeed(value);
+  const currentIndex = MARQUEE_SPEED_PRESETS.indexOf(speed);
+  const nextIndex =
+    direction < 0
+      ? Math.max(0, currentIndex - 1)
+      : Math.min(MARQUEE_SPEED_PRESETS.length - 1, currentIndex + 1);
+
+  return MARQUEE_SPEED_PRESETS[nextIndex];
+}
+
 function assignStyle(style, name, value) {
   if (typeof style.setProperty === "function" && name.startsWith("--")) {
     style.setProperty(name, value);

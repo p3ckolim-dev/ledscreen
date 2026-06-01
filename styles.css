@@ -91,7 +91,14 @@ h1 {
   gap: 10px;
 }
 
-.message-field span {
+.field-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.field-heading span:first-child {
   color: var(--muted);
   font-size: 14px;
   font-weight: 700;
@@ -120,11 +127,19 @@ textarea:focus {
   box-shadow: 0 0 0 4px rgba(var(--sign-rgb), 0.18);
 }
 
-.color-picker,
-.speed-picker {
+.color-picker {
   min-width: 0;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.speed-picker {
+  min-width: 0;
+  display: grid;
   gap: 8px;
   margin: 0;
   padding: 0;
@@ -140,8 +155,7 @@ textarea:focus {
   font-weight: 700;
 }
 
-.swatch-option,
-.speed-option {
+.swatch-option {
   min-width: 0;
   min-height: 42px;
   display: flex;
@@ -157,8 +171,7 @@ textarea:focus {
   letter-spacing: 0;
 }
 
-.swatch-option input,
-.speed-option input {
+.swatch-option input {
   position: absolute;
   opacity: 0;
   pointer-events: none;
@@ -181,26 +194,10 @@ textarea:focus {
   box-shadow: 0 0 0 3px rgba(var(--swatch-rgb), 0.16);
 }
 
-.speed-option {
-  justify-content: center;
-  padding-inline: 8px;
-}
-
-.speed-option span {
-  min-width: 0;
-}
-
-.speed-option:has(input:checked) {
-  border-color: rgba(var(--sign-rgb), 0.86);
-  background: rgba(var(--sign-rgb), 0.16);
-  color: var(--sign-color);
-  box-shadow: 0 0 0 3px rgba(var(--sign-rgb), 0.16);
-}
-
 .setup-actions {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 16px;
 }
 
@@ -213,6 +210,46 @@ textarea:focus {
 
 .counter strong {
   color: var(--ink);
+}
+
+.speed-stepper {
+  width: 100%;
+  min-height: 46px;
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) 46px;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(17, 17, 17, 0.74);
+  overflow: hidden;
+}
+
+.step-button {
+  width: 46px;
+  height: 46px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--sign-color);
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.step-button:not(:disabled):active {
+  background: rgba(var(--sign-rgb), 0.16);
+}
+
+.step-button:disabled {
+  color: rgba(255, 255, 255, 0.22);
+}
+
+.speed-value {
+  min-width: 0;
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-align: center;
 }
 
 .start-button {
@@ -394,8 +431,7 @@ body.is-displaying {
     flex: 1;
   }
 
-  .color-picker,
-  .speed-picker {
+  .color-picker {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
