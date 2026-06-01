@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#050505">
+    <title>LED Screen</title>
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main class="app">
+      <section class="setup" data-setup-view>
+        <form class="setup-panel" data-setup-form>
+          <div class="brand-block">
+            <p class="eyebrow">Mobile billboard</p>
+            <h1>LED Screen</h1>
+          </div>
+
+          <label class="message-field">
+            <span>Message</span>
+            <textarea
+              data-message-input
+              rows="4"
+              maxlength="120"
+              placeholder="오늘의 문구"
+              autofocus
+            ></textarea>
+          </label>
+
+          <fieldset class="color-picker">
+            <legend>Color</legend>
+            <label class="swatch-option" style="--swatch: #b7ff00">
+              <input data-color-input type="radio" name="signColor" value="#b7ff00" checked>
+              <span class="swatch"></span>
+              <span>Lime</span>
+            </label>
+            <label class="swatch-option" style="--swatch: #ff2d2d">
+              <input data-color-input type="radio" name="signColor" value="#ff2d2d">
+              <span class="swatch"></span>
+              <span>Red</span>
+            </label>
+            <label class="swatch-option" style="--swatch: #ffc247">
+              <input data-color-input type="radio" name="signColor" value="#ffc247">
+              <span class="swatch"></span>
+              <span>Amber</span>
+            </label>
+            <label class="swatch-option" style="--swatch: #26f1ff">
+              <input data-color-input type="radio" name="signColor" value="#26f1ff">
+              <span class="swatch"></span>
+              <span>Cyan</span>
+            </label>
+            <label class="swatch-option" style="--swatch: #ff4fd8">
+              <input data-color-input type="radio" name="signColor" value="#ff4fd8">
+              <span class="swatch"></span>
+              <span>Pink</span>
+            </label>
+            <label class="swatch-option" style="--swatch: #f7f7f2">
+              <input data-color-input type="radio" name="signColor" value="#f7f7f2">
+              <span class="swatch"></span>
+              <span>White</span>
+            </label>
+          </fieldset>
+
+          <div class="setup-actions">
+            <span class="counter"><strong data-char-count>0</strong>/120</span>
+            <button class="start-button" data-start-button type="submit">Start</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="screen" data-screen-view hidden>
+        <div class="screen-toolbar" aria-label="Display controls">
+          <button class="icon-button" data-edit-button type="button" aria-label="Edit message">x</button>
+          <button class="icon-button" data-fullscreen-button type="button" aria-label="Fullscreen">⛶</button>
+        </div>
+        <div class="sign-shell">
+          <div class="sign-area" data-sign-area>
+            <div class="sign-text" data-sign-text></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./src/app.mjs"></script>
+  </body>
+</html>

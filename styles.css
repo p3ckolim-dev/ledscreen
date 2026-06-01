@@ -1,0 +1,387 @@
+:root {
+  color-scheme: dark;
+  --bg: #050505;
+  --panel: #111111;
+  --ink: #f7f7f2;
+  --muted: #9c9c92;
+  --line: #2a2a26;
+  --lime: #b7ff00;
+  --red: #ff2d2d;
+  --amber: #ffc247;
+  --cyan: #26f1ff;
+  --sign-color: var(--lime);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+  background: var(--bg);
+}
+
+body {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--ink);
+}
+
+button,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+.app {
+  min-height: 100dvh;
+  background:
+    linear-gradient(135deg, rgba(183, 255, 0, 0.12), transparent 32%),
+    linear-gradient(315deg, rgba(38, 241, 255, 0.1), transparent 28%),
+    var(--bg);
+}
+
+.setup {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.setup-panel {
+  width: min(520px, 100%);
+  display: grid;
+  gap: 22px;
+}
+
+.brand-block {
+  display: grid;
+  gap: 6px;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--lime);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(42px, 13vw, 86px);
+  line-height: 0.9;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.message-field {
+  display: grid;
+  gap: 10px;
+}
+
+.message-field span {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+textarea {
+  width: 100%;
+  min-height: 148px;
+  resize: vertical;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(17, 17, 17, 0.84);
+  color: var(--ink);
+  caret-color: var(--sign-color);
+  font-size: 22px;
+  font-weight: 760;
+  line-height: 1.25;
+  letter-spacing: 0;
+  outline: none;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+
+textarea:focus {
+  border-color: color-mix(in srgb, var(--sign-color) 74%, white);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--sign-color) 18%, transparent);
+}
+
+.color-picker {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.color-picker legend {
+  grid-column: 1 / -1;
+  margin-bottom: 2px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.swatch-option {
+  min-width: 0;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(17, 17, 17, 0.74);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.swatch-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.swatch {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--swatch);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.18) inset,
+    0 0 18px color-mix(in srgb, var(--swatch) 76%, transparent);
+}
+
+.swatch-option:has(input:checked) {
+  border-color: var(--swatch);
+  background: color-mix(in srgb, var(--swatch) 16%, rgba(17, 17, 17, 0.84));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--swatch) 16%, transparent);
+}
+
+.setup-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.counter {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.counter strong {
+  color: var(--ink);
+}
+
+.start-button {
+  min-width: 128px;
+  min-height: 52px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--sign-color);
+  color: #050505;
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  box-shadow:
+    0 16px 42px color-mix(in srgb, var(--sign-color) 30%, transparent),
+    0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+  transition: transform 160ms ease, background 160ms ease, opacity 160ms ease;
+}
+
+.start-button:not(:disabled):active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.start-button:disabled {
+  opacity: 0.42;
+}
+
+.screen {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  background: #000000;
+  touch-action: manipulation;
+}
+
+.sign-shell {
+  width: 100%;
+  height: 100%;
+  padding:
+    max(10px, env(safe-area-inset-top))
+    max(10px, env(safe-area-inset-right))
+    max(10px, env(safe-area-inset-bottom))
+    max(10px, env(safe-area-inset-left));
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at center, color-mix(in srgb, var(--sign-color) 16%, transparent), transparent 62%),
+    radial-gradient(circle, rgba(255, 255, 255, 0.09) 0 1px, transparent 1.6px) 0 0 / 8px 8px,
+    linear-gradient(180deg, #020202, #080808 44%, #000000);
+}
+
+.sign-area {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.sign-area.is-scrolling {
+  justify-content: flex-start;
+}
+
+.sign-text {
+  width: auto;
+  max-width: none;
+  max-height: 100%;
+  flex: 0 0 auto;
+  color: var(--sign-color);
+  font-family: Impact, "Arial Black", "Apple SD Gothic Neo", "Noto Sans KR", ui-sans-serif, system-ui, sans-serif;
+  font-size: 120px;
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: 0;
+  text-align: center;
+  white-space: nowrap;
+  overflow: visible;
+  text-rendering: geometricPrecision;
+  text-shadow:
+    0 0 4px rgba(255, 255, 255, 0.72),
+    0 0 16px color-mix(in srgb, var(--sign-color) 94%, transparent),
+    0 0 42px color-mix(in srgb, var(--sign-color) 66%, transparent),
+    0 0 86px color-mix(in srgb, var(--sign-color) 34%, transparent);
+  transform: translateZ(0);
+  animation: signPulse 2200ms ease-in-out infinite;
+}
+
+.sign-text.is-marquee {
+  animation-name: signMarqueeLeft;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.screen-toolbar {
+  position: fixed;
+  z-index: 4;
+  top: max(12px, env(safe-area-inset-top));
+  right: max(12px, env(safe-area-inset-right));
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.screen.show-controls .screen-toolbar {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.icon-button {
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.72);
+  color: white;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0;
+  backdrop-filter: blur(14px);
+}
+
+body.is-displaying {
+  overflow: hidden;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@keyframes signPulse {
+  0%,
+  100% {
+    filter: saturate(1.04) brightness(1);
+  }
+  50% {
+    filter: saturate(1.16) brightness(1.12);
+  }
+}
+
+@keyframes signMarqueeLeft {
+  from {
+    transform: translateX(var(--marquee-start));
+  }
+  to {
+    transform: translateX(var(--marquee-end));
+  }
+}
+
+@media (max-width: 520px) {
+  .setup {
+    padding: 18px;
+    align-items: end;
+  }
+
+  .setup-panel {
+    padding-bottom: 10px;
+  }
+
+  textarea {
+    min-height: 132px;
+    font-size: 20px;
+  }
+
+  .setup-actions {
+    align-items: stretch;
+  }
+
+  .start-button {
+    flex: 1;
+  }
+
+  .color-picker {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
+}
