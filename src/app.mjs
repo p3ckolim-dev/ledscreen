@@ -4,7 +4,7 @@ import {
   resolveMarqueeSpeed,
   resolveSignColor,
   resolveSignColorPreset,
-} from "./fitText.mjs";
+} from "./fitText.mjs?v=20260601-speed";
 
 const form = document.querySelector("[data-setup-form]");
 const input = document.querySelector("[data-message-input]");
