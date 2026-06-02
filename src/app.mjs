@@ -5,11 +5,12 @@ import {
   resolveMarqueeSpeed,
   resolveSignColor,
   resolveSignColorPreset,
-} from "./fitText.mjs?v=20260601-default-3x";
+} from "./fitText.mjs?v=20260602-markdown";
+import { renderInlineMarkdown } from "./markdown.mjs?v=20260602-markdown";
 import {
   readCachedMessage,
   writeCachedMessage,
-} from "./preferences.mjs?v=20260601-default-3x";
+} from "./preferences.mjs?v=20260602-markdown";
 
 const form = document.querySelector("[data-setup-form]");
 const input = document.querySelector("[data-message-input]");
@@ -120,7 +121,7 @@ function showControls() {
 async function enterDisplay(message) {
   writeCachedMessage(message);
   applySignColor(getSelectedColor());
-  signText.textContent = message;
+  signText.innerHTML = renderInlineMarkdown(message);
   setupView.hidden = true;
   screenView.hidden = false;
   document.body.classList.add("is-displaying");

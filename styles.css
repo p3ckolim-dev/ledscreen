@@ -337,6 +337,7 @@ textarea:focus {
     0 0 16px rgba(var(--sign-rgb), 0.92),
     0 0 42px rgba(var(--sign-rgb), 0.62),
     0 0 86px rgba(var(--sign-rgb), 0.34);
+  pointer-events: none;
   transform: translateZ(0);
   animation: signPulse 2200ms ease-in-out infinite;
 }
@@ -346,6 +347,45 @@ textarea:focus {
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   will-change: transform;
+}
+
+.sign-text strong,
+.sign-text em,
+.sign-text s,
+.sign-text code,
+.sign-text .md-link {
+  color: inherit;
+  -webkit-text-fill-color: inherit;
+}
+
+.sign-text strong {
+  font-weight: 1000;
+}
+
+.sign-text em {
+  font-style: italic;
+}
+
+.sign-text s {
+  text-decoration-color: rgba(var(--sign-rgb), 0.92);
+  text-decoration-thickness: 0.08em;
+}
+
+.sign-text code {
+  padding: 0 0.08em;
+  border-radius: 0.08em;
+  background: rgba(var(--sign-rgb), 0.16);
+  font-family: inherit;
+  font-size: 0.86em;
+  font-weight: 900;
+}
+
+.sign-text .md-link {
+  text-decoration: underline;
+  text-decoration-color: rgba(var(--sign-rgb), 0.92);
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.12em;
+  pointer-events: none;
 }
 
 .screen-toolbar {
